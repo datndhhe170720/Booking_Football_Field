@@ -1,0 +1,199 @@
+﻿@using PagedList.Mvc;
+
+@model IEnumerable<ProjectPRN221_2.Models.FootballField>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Lịch Sân Bóng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .field-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+            .field-container img {
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 10px;
+            }
+
+        .time-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+            .time-table th, .time-table td {
+                border: 1px solid #ccc;
+                padding: 8px;
+                text-align: center;
+            }
+
+            .time-table th {
+                background-color: #f2f2f2;
+            }
+
+        .field-container {
+            display: flex;
+        }
+
+        .left-half {
+            flex: 1;
+        }
+
+        .right-half {
+            flex: 1;
+            padding-left: 20px; /* Khoảng cách giữa hai nửa */
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .pagination li {
+                margin-right: 10px;
+            }
+
+            .pagination a {
+                text-decoration: none;
+                color: #007bff;
+                cursor: pointer;
+            }
+
+            .pagination .active a {
+                font-weight: bold;
+                color: black;
+            }
+    </style>
+</head>
+<body>
+    <form method="get" action="@Url.Action("Test", "FootballFields")">
+        <input type="text" id="search" name="search" placeholder="Search field name...">
+        <button type="submit">Search</button>
+    </form>
+    <br></br>
+    @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+    {
+        <div class="alert alert-success" role="alert">
+            @ViewBag.SuccessMessage
+        </div>
+    }
+    <button onclick="redirectToBooking()">Booking</button>
+    <form method="get" action="@Url.Action("Test", "FootballFields")">
+        <label for="size">Filter by size:</label>
+        <select name="size" id="size">
+            <option value="">All</option>
+            @{
+                foreach (var sizeOption in ViewBag.AllSizes)
+                {
+                    <option value="@sizeOption">@sizeOption</option>
+                }
+            }
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+
+    
+
+    
+    @foreach (var item in Model)
+    {
+        <div class="field-container">
+            <div class="left-half">
+                <img src="@item.Image" alt="Field ........" style="max-width: 400px; max-height: 600px;">
+            </div>
+            <div class="right-half">
+                <p hidden>Field Id: @Html.DisplayFor(modelItem => item.FieldId)</p>
+                <p>Field name: @Html.DisplayFor(modelItem => item.FieldName)</p>
+                <p>Field type: @Html.DisplayFor(modelItem => item.Size) people </p>
+                <p>Price (2 hours): @Html.DisplayFor(modelItem => item.Price) VND</p>
+
+                <button onclick="redirectToDetails(@item.FieldId)">Details</button>
+                @* <button onclick="redirectToBooking(@item.FieldId)">Booking</button>*@
+            </div>
+        </div>
+    }
+
+
+    <div class="pagination">
+        @if (ViewBag.TotalPageCount > 1)
+        {
+            @if (ViewBag.PageNumber != 1)
+            {
+                <li>
+                    <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = 1 })">&lt;&lt;</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = ViewBag.PageNumber - 1 })">&lt;</a>
+                </li>
+            }
+
+            @if (ViewBag.PageNumber <= 3)
+            {
+                for (int i = 1; i <= Math.Min(5, ViewBag.TotalPageCount); i++)
+                {
+                    <li class="@(ViewBag.PageNumber == i ? "active" : "")">
+                        <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = i })">@i</a>
+                    </li>
+                }
+            }
+            else if (ViewBag.PageNumber >= ViewBag.TotalPageCount - 2)
+            {
+                for (int i = ViewBag.TotalPageCount - 4; i <= ViewBag.TotalPageCount; i++)
+                {
+                    <li class="@(ViewBag.PageNumber == i ? "active" : "")">
+                        <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = i })">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                for (int i = ViewBag.PageNumber - 2; i <= ViewBag.PageNumber + 2; i++)
+                {
+                    <li class="@(ViewBag.PageNumber == i ? "active" : "")">
+                        <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = i })">@i</a>
+                    </li>
+                }
+            }
+
+            @if (ViewBag.PageNumber != ViewBag.TotalPageCount)
+            {
+                <li>
+                    <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = ViewBag.PageNumber + 1 })">&gt;</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Test", "FootballFields", new { size = ViewBag.Size, search = ViewBag.Search, page = ViewBag.TotalPageCount })">&gt;&gt;</a>
+                </li>
+            }
+        }
+    </div>
+
+
+    <script>
+        function redirectToDetails(fieldId) {
+            window.location.href = '/FootballFields/Details/' + fieldId;
+        }
+
+        function redirectToBooking(fieldId) {
+            window.location.href = '/Bookings/Create/' + fieldId;
+        }
+       
+
+    </script>
+
+
+</body>
+</html>
+
+
+

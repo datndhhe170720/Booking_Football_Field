@@ -1,0 +1,176 @@
+﻿@model IEnumerable<ProjectPRN221_2.Models.Booking>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form method="get" action="@Url.Action("Index", "Bookings")">
+    <label for="status">Filter by Status:</label>
+    <select name="status" id="status">
+        <option value="">All</option>
+        @{
+            foreach (var statusOption in ViewBag.AllStatus)
+            {
+                @if (@statusOption == "1")
+                {
+                    <option value="@statusOption">Accept</option>
+                }
+                else if (@statusOption == "0")
+                {
+                    <option value="@statusOption">Pending</option>
+                }
+                else if (@statusOption == "-1")
+                {
+                    <option value="@statusOption">Denied</option>
+                }
+                else
+                {
+                    <option value="@statusOption">@statusOption</option>
+                }
+            }
+        }
+    </select>
+    <button type="submit">Filter</button>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Field.FieldName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeSlot.Slot)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+                <td>
+                    <text>@item.Date?.ToString("dd/MM/yyyy")</text>
+                </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Field.FieldName)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.TimeSlot.Slot)
+            </td>
+                <td>
+                    @if (item.Status == "0")
+                    {
+                        <button type="button" class="btn btn-success" onclick="updateStatus('@item.BookingId', '1')">Accept</button>
+                        <button type="button" class="btn btn-danger" onclick="updateStatus('@item.BookingId', '-1')">Denied</button>
+                    }
+                    else if (item.Status == "1")
+                    {
+                        <span class="text-success">Accepted</span>
+                    }
+                    else if (item.Status == "-1")
+                    {
+                        <span class="text-danger">Be denieded</span>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => item.Status)
+                    }
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BookingId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BookingId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BookingId">Delete</a>
+            </td>
+        </tr>
+           
+}
+
+       
+    </tbody>
+    
+</table>
+
+<script>
+    function updateStatus(bookingId, newStatus) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UpdateStatus", "Bookings")',
+            data: { bookingId: bookingId, newStatus: newStatus },
+            success: function (result) {
+                // Reload the page or update the UI as needed
+                location.reload(); // Reload the page after successful update
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
+
+
+@*<div>
+    @if (ViewBag.AllStatus != null)
+    {
+        for (int i = 1; i <= ViewBag.AllStatus.Count; i++)
+        {
+            <a href="@Url.Action("Index", new { page = i })">@i</a>
+        }
+    }
+</div>*@
+
+
+
+
+@{
+    int totalRecords = ViewBag.statusBooking.Count; // Số lượng bản ghi trong cơ sở dữ liệu
+    int pageSize = 10; // Số lượng bản ghi trên mỗi trang
+    int totalPages;
+    if(totalRecords % pageSize == 0)
+    {
+        totalPages = totalRecords / pageSize;
+    }else
+    {
+        totalPages = (totalRecords / pageSize) + 1;
+    }
+}
+
+<div>
+    @for (int i = 1; i <= totalPages ; i++)
+    {
+        <a href="@Url.Action("Index", new { page = i })">@i</a>
+    }
+</div>
+
+
+
