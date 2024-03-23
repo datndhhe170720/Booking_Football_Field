@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\ki7\\Project PRN221\\ProjectPRN221\\ProjectPRN221_2\\ProjectPRN221_2.csproj": {}
+    "C:\\Users\\admin\\Desktop\\PRN221\\Demo\\Project_PRN221\\Manh_Pitch_Project_PRN221\\Booking_Football_Field\\ProjectPRN221_2.csproj": {}
   },
   "projects": {
-    "G:\\ki7\\Project PRN221\\ProjectPRN221\\ProjectPRN221_2\\ProjectPRN221_2.csproj": {
+    "C:\\Users\\admin\\Desktop\\PRN221\\Demo\\Project_PRN221\\Manh_Pitch_Project_PRN221\\Booking_Football_Field\\ProjectPRN221_2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\ki7\\Project PRN221\\ProjectPRN221\\ProjectPRN221_2\\ProjectPRN221_2.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\PRN221\\Demo\\Project_PRN221\\Manh_Pitch_Project_PRN221\\Booking_Football_Field\\ProjectPRN221_2.csproj",
         "projectName": "ProjectPRN221_2",
-        "projectPath": "G:\\ki7\\Project PRN221\\ProjectPRN221\\ProjectPRN221_2\\ProjectPRN221_2.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "G:\\ki7\\Project PRN221\\ProjectPRN221\\ProjectPRN221_2\\obj\\",
+        "projectPath": "C:\\Users\\admin\\Desktop\\PRN221\\Demo\\Project_PRN221\\Manh_Pitch_Project_PRN221\\Booking_Football_Field\\ProjectPRN221_2.csproj",
+        "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\PRN221\\Demo\\Project_PRN221\\Manh_Pitch_Project_PRN221\\Booking_Football_Field\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -84,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
